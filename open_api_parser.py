@@ -1,4 +1,5 @@
 import json
+import yaml
 
 def parse_openapi_spec(file_path):
     """
@@ -8,14 +9,32 @@ def parse_openapi_spec(file_path):
     :return: List of endpoints with method, path, parameters, and category
     """
     with open(file_path, 'r', encoding='utf-8') as f:
-        openapi_spec = json.load(f)
+        if file_path.endswith('.yaml') or file_path.endswith('.yml'):
+            openapi_spec = yaml.safe_load(f)
+        elif file_path.endswith('.json'):
+            openapi_spec = json.load(f)
+        else:
+            raise ValueError("Unsupported file format. Please provide a .json or .yaml file.")
+    
+    # Check if the OpenAPI spec is valid
+    if not isinstance(openapi_spec, dict):
+        raise Exception('Invalid OpenAPI specification: Not a dictionary.')
+
 
     if 'paths' not in openapi_spec:
         raise Exception('Invalid OpenAPI specification: "paths" not found.')
+
+    if 'schemes' in openapi_spec:
+        # If 'schemes' is present, use the first scheme
+        schema = openapi_spec['schemes'][0] + "://"
+    else:
+        # Default to HTTP if 'schemes' is not present
+        schema = "http://"
     
+
     host = "http://examplex.com"
     if 'host' in openapi_spec:
-        host = "http://"+openapi_spec['host'] 
+        host = schema+openapi_spec['host'] 
 
 
     endpoints = []
