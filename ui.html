@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Postman UI</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h3>Requests</h3>
+      <ul id="request-list">
+        <li onclick="loadRequest(1)">Request 1</li>
+        <li onclick="loadRequest(2)">Request 2</li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <h2>API Request Interface</h2>
+
+      <div class="request-section">
+        <select id="http-method">
+          <option>GET</option>
+          <option>POST</option>
+          <option>PUT</option>
+          <option>DELETE</option>
+          <option>PATCH</option>
+        </select>
+        <input type="text" id="api-url" placeholder="Enter API URL" style="width: 60%;" />
+        <button id="send-btn" onclick="showResult()">Send</button>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="showTab('params')">Params</div>
+        <div class="tab" onclick="showTab('headers')">Headers</div>
+        <div class="tab" onclick="showTab('body')">Body</div>
+      </div>
+
+      <div id="params" class="tab-content">
+        <table class="param-table">
+          <tr>
+            <td><input type="text" placeholder="Param name" /></td>
+            <td><input type="text" placeholder="Param value" /></td>
+          </tr>
+        </table>
+        <button onclick="addNewParam()">New Param</button>
+      </div>
+
+      <div id="headers" class="tab-content" style="display:none">
+        <table class="param-table" id="headers-table"></table>
+          <tr>
+            <td><input type="text" placeholder="Header name" /></td>
+            <td><input type="text" placeholder="Header value" /></td>
+          </tr>
+        </table>
+        <button onclick="addNewHeader()">New Header</button>
+      </div>
+
+      <div id="body" class="tab-content" style="display:none">
+        <textarea placeholder="Enter request body (JSON, etc.)"></textarea>
+      </div>
+
+      <h3>Result</h3>
+      <div class="result-section">
+        <pre id="result-pane">No execution here — just a mock UI.</pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
+
+
